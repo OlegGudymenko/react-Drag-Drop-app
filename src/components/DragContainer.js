@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DragItem from './DragItem';
+import DragCell from './DragCell';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -9,17 +10,25 @@ class DragContainer extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.renderEmptyRows = this.renderEmptyRows.bind(this);
     this.renderRows = this.renderRows.bind(this);
+    this.handleDrag = this.handleDrag.bind(this);
   }
 
   renderItem(data) {
-    return  <DragItem key={data.id} data={data} />
+    return  <DragItem key={data.id}
+                      selectCard={this.props.selectCard}
+                      data={data}/>
+  }
+  handleDrag(position, targetColumn){
+    this.props.changeCardColumn(position, targetColumn)
   }
 
   renderEmptyRows() {
-    let containerRows = [];
-    for( let i = 0; i < 4; i++) {
-      containerRows.push(<div className='drag_row' key={`empty_${i}`}></div>)
-    }
+    const containerRows = [];
+
+    containerRows.push(<DragCell positionY={0}
+                                 key={0}
+                                 column={this.props.columnNumber}
+                                 handleDrag={this.handleDrag}/>)
     return containerRows;
   }
 
@@ -36,16 +45,24 @@ class DragContainer extends Component {
     for (let i = 0; i <= listLength ; i++) {
       let result = ticketsData.some((data, index) => {
         if(i === data.position) {
-          return containerRows.push(this.renderItem(data))
+          return containerRows.push(
+            <DragCell positionY={i}
+                      key={i}
+                      column={this.props.columnNumber}
+                      handleDrag={this.handleDrag}>
+              {this.renderItem(data)}
+            </DragCell>
+          )
         }
+
       })
 
-      if (result) {
-        continue
-      } else {
-        containerRows.push(<div className='drag_row' key={`empty_${i}`}></div>)
-      }
     }
+      containerRows.push(<DragCell positionY={listLength + 1}
+                                   isAdding
+                                   key={listLength + 1}
+                                   column={this.props.columnNumber}
+                                   handleDrag={this.handleDrag}/>)
     return containerRows;
   }
 
@@ -54,7 +71,7 @@ class DragContainer extends Component {
 
     return (
       <div className="DragContainer">
-        <h3>{`column № ${columnNumber}`}</h3>
+        <h3>{`column № ${columnNumber + 1}`}</h3>
         {
           ticketsData && ticketsData.length
           ? this.renderRows(ticketsData)

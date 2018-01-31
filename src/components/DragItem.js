@@ -6,7 +6,13 @@ import { ItemTypes } from '../constants';
 
 const dragItemSource = {
   beginDrag(props) {
-    return {};
+    props.selectCard(props.data.id)
+    return {
+      cardId: props.data.id
+    };
+  },
+  endDrag(props, monitor, component) {
+    props.selectCard('')
   }
 };
 

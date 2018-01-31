@@ -29,7 +29,7 @@ class CardForm extends React.Component {
   }
 
   submitForm(e){
-    e.preventDefault();
+    e.preventDefault();  
     const { cardId, targetColumn, position } = this.state;
 
     this.props.changeCardColumn(parseInt(cardId), parseInt(targetColumn), parseInt(position));

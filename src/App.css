@@ -34,6 +34,15 @@
   background: #f5f5f5;
   margin: 10px 0;
 }
+.drag_row.is_hover {
+  background-color: #a3dcdc;
+}
+.drag_row.adding_block {
+  height: 30px;
+}
+.drag_row.adding_block.is_hover{
+  background-color: #a79ece;
+}
 .column_container {
   width: 100%;
   overflow: auto;
@@ -62,10 +71,10 @@
   text-align: center;
 }
 .drag_item .panel.isDragging{
-  border:2px solid #cde7f7;
+  /*border:2px solid #cde7f7;*/
 }
 .drag_item .panel.isDragging .panel-body{
-  background-color: #cde7f7;
+  background-color: red;
 }
 .panel-heading {
   display: flex;
@@ -83,6 +92,9 @@
 }
 .card_form Button {
     margin-top: -5px;
+}
+.create_board_btn {
+  margin-top:15px;
 }
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
